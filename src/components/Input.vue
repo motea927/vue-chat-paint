@@ -22,7 +22,6 @@ export default {
 
     .inputBox {
         height: 100%;
-        margin-left: -.2rem;
         width: 90%;
         resize: none;
     }

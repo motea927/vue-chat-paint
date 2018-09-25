@@ -4,9 +4,10 @@
         <button v-for="btn in btns" 
                 :key="btn.name" 
                 class="btn"
-                :class="'btn--' + btn.name">
+                :class="'btn--' + btn.name"
+                @click="changePenSize(btn.val)">
         </button>
-        <p>Erase Page</p>
+        <p class="erase" @click="erase">Erase Page</p>
         <p>Extras</p>
         <p>Print</p>
     </div>
@@ -14,23 +15,31 @@
 </template>
 
 <script>
+import bus from '../../assets/eventBus.js'
 export default {
     data() {
         return {
             btns:[
                 {
                     name: 'small',
-                    val: '.05rem'
+                    val: 3
                 },{
                     name: 'medium',
-                    val: '.1rem'
+                    val: 7
                 },{
                     name: 'large',
-                    val: '.15rem'
+                    val: 11
                 }
             ]
-        };
-        
+        };  
+    },
+    methods: {
+        erase() {
+            bus.$emit('erase');
+        },
+        changePenSize(val) {
+            bus.$emit('changePenSize', val);
+        }
     }
 }
 </script>
@@ -72,6 +81,9 @@ export default {
             width: 15px;
             height: 15px;
         }
+    }
+    .erase {
+        cursor: pointer;
     }
 </style>
 

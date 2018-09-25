@@ -3,8 +3,8 @@
         <svg class="features__icon">
             <use xlink:href="../src/assets/img/sprites.svg#smiling"></use>
         </svg>
-        <svg class="features__icon--small">
-            <use xlink:href="./src/assets/img/sprites.svg#ring"></use>
+        <svg class="features__icon">
+            <use xlink:href="../src/assets/img/sprites.svg#ring"></use>
         </svg>
     </div>
 </template>
@@ -28,16 +28,11 @@ export default {
         width: 60%;
 
         &__icon {
-            margin-left: -.2rem;
             width: .4rem;
             height: .4rem;
 
-            &--small {
-                width: .3rem;
-                height: .3rem;
-            }
+            
         }
-
         
     }
 

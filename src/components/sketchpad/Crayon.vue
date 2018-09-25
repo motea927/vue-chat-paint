@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import bus from '../../assets/eventBus.js'
+
 export default {
     data() {
         return {
@@ -40,6 +42,7 @@ export default {
             for(let i=0;i<this.crayons.length;i++){
                 if (this.crayons[i].name === name) {
                     this.crayons[i].active = true;
+                    bus.$emit('selectCrayon', this.crayons[i].color);
                 } else {
                     this.crayons[i].active = false;
                 }
