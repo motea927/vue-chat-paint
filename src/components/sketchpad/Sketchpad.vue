@@ -9,7 +9,6 @@
 <script>
 import Crayon from './Crayon.vue';
 import Canvas from './Canvas.vue';
-import Option from './Option.vue';
 
 export default {
     components: {
@@ -26,7 +25,7 @@ export default {
         grid-row: sketchpad-start / sketchpad-end;
         display: grid;
         grid-template-rows: 25% 75%;
-        border:1px solid lightgray;
+        border:1px solid rgb(146, 159, 165);
         width: 60%;
         padding: 0 .2rem .2rem .2rem;
     }

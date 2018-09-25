@@ -30,6 +30,8 @@ export default {
     .chat{
         background-color: #fff;
         grid-row: chat-start / chat-end;
+        border:1px solid rgb(146, 159, 165);
+        border-top: none;
         width: 60%;
         margin: 0 auto;
         padding: 0 .2rem .2rem .2rem;

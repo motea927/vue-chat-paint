@@ -23,17 +23,27 @@ var ws = new WebSocket('ws://localhost:8080');
 
 ws.onmessage = (evt) => {
     var msg = JSON.parse(evt.data);
+    var ratioX,ratioY = 0;
+
+    ratioX = msg.canvasWidth / _canvas.width;
+    ratioY = msg.canvasHeight / _canvas.height;
+
 
     if (msg.type === 'mouseDown') {
         ctx.strokeStyle = msg.color;
         ctx.lineWidth = msg.width;
         ctx.beginPath();
-        ctx.moveTo(msg.pos.x, msg.pos.y);
+        ctx.moveTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
+    } 
 
-    } else if (msg.type === 'mouseMove') {
-
-        ctx.lineTo(msg.pos.x, msg.pos.y);
+    if (msg.type === 'mouseMove') {
+        ctx.lineTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
         ctx.stroke();
+    } 
+
+    if (msg.type === 'erase') {
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, _canvas.width, _canvas.height);
     }
 }
 
@@ -42,7 +52,7 @@ export default {
     data() {
         return {
             canvas: {
-                color: '#0000ff',
+                color: '#800000',
                 drawing: false,
                 penSize: 3
             }
@@ -82,7 +92,9 @@ export default {
                 type: "mouseDown",
                 color: ctx.strokeStyle,
                 width: this.canvas.penSize,
-                pos: mousePos
+                pos: mousePos,
+                canvasHeight: _canvas.height,
+                canvasWidth: _canvas.width
             }
 
             ws.send(JSON.stringify(msg));
@@ -104,7 +116,9 @@ export default {
                     //傳送ws座標訊息
                     var msg = {
                         type: "mouseMove",
-                        pos: mousePos
+                        pos: mousePos,
+                        canvasHeight: _canvas.height,
+                        canvasWidth: _canvas.width
                     }
 
                     ws.send(JSON.stringify(msg));
@@ -125,6 +139,8 @@ export default {
         erase() {
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, _canvas.width, _canvas.height);
+
+            ws.send(JSON.stringify({ type: 'erase'}));
         },
         selectCrayon(color) {
             this.canvas.color = color;
@@ -152,6 +168,7 @@ export default {
         background-color: white;
         width: 100%;
         height: 100%;
+        border: 2px solid rgb(151, 158, 150);
     }
 </style>
 
