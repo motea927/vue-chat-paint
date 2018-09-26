@@ -13,7 +13,7 @@
         
         <p class="erase" @click="erase">Erase Page</p>
         <p>Extras</p>
-        <p>Print</p>
+        <a href="#" download="painting.png" @click="print" ref="print"><p>Print</p></a>
     </div>
     
 </template>
@@ -40,9 +40,15 @@ export default {
             ]
         };  
     },
+    mounted() {
+        bus.$on('receivePrintImg', this.receivePrintImg);
+    },
     methods: {
         erase() {
             bus.$emit('erase');
+        },
+        print() {
+            bus.$emit('print');
         },
         changePenSize(val) {
             bus.$emit('changePenSize', val);
@@ -53,6 +59,9 @@ export default {
                     this.btns[i].active = false;
                 }
             }
+        },
+        receivePrintImg(url) {
+            this.$refs.print.href = url;
         }
     }
 }

@@ -67,6 +67,7 @@ export default {
         _canvas.height = _canvas.clientHeight;
         _canvas.width = _canvas.clientWidth;
         bus.$on('erase', this.erase);
+        bus.$on('print', this.print);
         bus.$on('selectCrayon', this.selectCrayon);
         bus.$on('changePenSize', this.changePenSize);
     },
@@ -111,8 +112,6 @@ export default {
                     var mousePos = this.getMousePos(_canvas, $event);
                     ctx.lineTo(mousePos.x, mousePos.y);
                     ctx.stroke();
-
-
                     //傳送ws座標訊息
                     var msg = {
                         type: "mouseMove",
@@ -120,18 +119,8 @@ export default {
                         canvasHeight: _canvas.height,
                         canvasWidth: _canvas.width
                     }
-
                     ws.send(JSON.stringify(msg));
-
                 }
-
-
-
-
-
-
-                
-
         },
         mouseUp() {
              this.canvas.drawing = false;
@@ -141,6 +130,10 @@ export default {
             ctx.fillRect(0, 0, _canvas.width, _canvas.height);
 
             ws.send(JSON.stringify({ type: 'erase'}));
+        },
+        print() {
+            var _url = _canvas.toDataURL();
+            bus.$emit('receivePrintImg', _url);
         },
         selectCrayon(color) {
             this.canvas.color = color;
