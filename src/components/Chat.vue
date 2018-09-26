@@ -36,6 +36,9 @@ export default {
                     this.chatLists.push({from: msg.from, content: msg.content});
                     console.log('push finish');
                     this.scrollToBottom();
+                } else if (msg.type === 'sentRing') {
+                    this.chatLists.push({from: msg.from, content: msg.content});
+                    this.scrollToBottom();
                 }
             }
 

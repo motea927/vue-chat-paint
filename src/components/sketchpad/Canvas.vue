@@ -41,6 +41,9 @@ export default {
         ctx = _canvas.getContext('2d');
         _canvas.height = _canvas.clientHeight;
         _canvas.width = _canvas.clientWidth;
+
+
+
         bus.$on('erase', this.erase);
         bus.$on('print', this.print);
         bus.$on('selectCrayon', this.selectCrayon);
@@ -130,7 +133,7 @@ export default {
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, _canvas.width, _canvas.height);
 
-            ws.send(JSON.stringify({ type: 'erase'}));
+            ws.send(JSON.stringify({ type: 'erase', room: this.room}));
         },
         print() {
             var _url = _canvas.toDataURL();
