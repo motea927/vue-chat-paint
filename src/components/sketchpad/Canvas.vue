@@ -9,6 +9,7 @@
         </canvas>
 
         <app-option></app-option>
+        
     </div>
     
     
@@ -21,34 +22,8 @@ import Option from './Option';
 
 var ws = new WebSocket('ws://localhost:8080');
 
-ws.onmessage = (evt) => {
-    var msg = JSON.parse(evt.data);
-    var ratioX,ratioY = 0;
-
-    ratioX = msg.canvasWidth / _canvas.width;
-    ratioY = msg.canvasHeight / _canvas.height;
-
-
-    if (msg.type === 'mouseDown') {
-        ctx.strokeStyle = msg.color;
-        ctx.lineWidth = msg.width;
-        ctx.beginPath();
-        ctx.moveTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
-    } 
-
-    if (msg.type === 'mouseMove') {
-        ctx.lineTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
-        ctx.stroke();
-    } 
-
-    if (msg.type === 'erase') {
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, _canvas.width, _canvas.height);
-    }
-}
-
 export default {
-
+    props: ['room'],
     data() {
         return {
             canvas: {
@@ -70,6 +45,30 @@ export default {
         bus.$on('print', this.print);
         bus.$on('selectCrayon', this.selectCrayon);
         bus.$on('changePenSize', this.changePenSize);
+
+        ws.onmessage = (evt) => {
+            var msg = JSON.parse(evt.data);
+        
+            if (msg.room === this.room) {
+                var ratioX,ratioY = 0;
+                //因應不同解析度換算比率
+                ratioX = msg.canvasWidth / _canvas.width;
+                ratioY = msg.canvasHeight / _canvas.height;
+        
+                if (msg.type === 'mouseDown') {
+                    ctx.strokeStyle = msg.color;
+                    ctx.lineWidth = msg.width;
+                    ctx.beginPath();
+                    ctx.moveTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
+                } else if (msg.type === 'mouseMove') {
+                    ctx.lineTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
+                    ctx.stroke();
+                } else if (msg.type === 'erase') {
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(0, 0, _canvas.width, _canvas.height);
+                }
+            }
+        }
     },
     methods: {
         mouseDown($event) {
@@ -95,7 +94,8 @@ export default {
                 width: this.canvas.penSize,
                 pos: mousePos,
                 canvasHeight: _canvas.height,
-                canvasWidth: _canvas.width
+                canvasWidth: _canvas.width,
+                room: this.room
             }
 
             ws.send(JSON.stringify(msg));
@@ -117,7 +117,8 @@ export default {
                         type: "mouseMove",
                         pos: mousePos,
                         canvasHeight: _canvas.height,
-                        canvasWidth: _canvas.width
+                        canvasWidth: _canvas.width,
+                        room: this.room
                     }
                     ws.send(JSON.stringify(msg));
                 }
@@ -142,11 +143,11 @@ export default {
             this.canvas.penSize = val;
         }
     }
-
-
-        
 }
+
+
 </script>
+
 
 <style lang="scss">
     .canvasAndOption {

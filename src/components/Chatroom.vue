@@ -2,9 +2,9 @@
   <div class="grid">
     <div class="container">
       <app-header></app-header>
-      <app-sketchpad></app-sketchpad>
+      <app-sketchpad :room="$route.params.room"></app-sketchpad>
       <app-chat :room="$route.params.room"></app-chat>
-      <app-features></app-features>
+      <app-features :id="$route.params.id" :room="$route.params.room"></app-features>
       <app-input :id="$route.params.id" :room="$route.params.room"></app-input>
     </div>
     

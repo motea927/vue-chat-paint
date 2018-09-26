@@ -30,13 +30,15 @@ export default {
     mounted() {
         ws.onmessage = (evt) => {
             var msg = JSON.parse(evt.data);
-            if (msg.type === 'sentMsg') {
-                if (this.room === msg.room) {
+
+            if (this.room === msg.room) {
+                if (msg.type === 'sentMsg') {
                     this.chatLists.push({from: msg.from, content: msg.content});
                     console.log('push finish');
                     this.scrollToBottom();
                 }
             }
+
         }
     },
     

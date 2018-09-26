@@ -3,7 +3,7 @@
         <svg class="features__icon">
             <use xlink:href="../src/assets/img/sprites.svg#smiling"></use>
         </svg>
-        <svg class="features__icon">
+        <svg class="features__icon" @click="ring">
             <use xlink:href="../src/assets/img/sprites.svg#ring"></use>
         </svg>
     </div>
@@ -12,8 +12,22 @@
 
 
 <script>
+var ws = new WebSocket('ws://localhost:8080');
+
 export default {
-    
+    props:['id','room'],
+    methods: {
+        ring() {
+            var msg = {
+                type: "sentRing",
+                content: "叮咚, 有人在家嗎～～～～",
+                from: this.id,
+                room: this.room
+            }
+
+            ws.send(JSON.stringify(msg));
+        }
+    }
 }
 </script>
 
@@ -26,12 +40,13 @@ export default {
         margin: 0 auto;
         height: 100%;
         width: 60%;
-
         &__icon {
-            width: .4rem;
-            height: .4rem;
-
-            
+            width: .3rem;
+            height: .3rem;
+            cursor: pointer;
+            &:not(:first-child) {
+                margin-left: .1rem;
+            }
         }
         
     }

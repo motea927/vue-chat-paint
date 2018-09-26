@@ -1,7 +1,7 @@
 <template>
     <div class="sketchpad">
         <app-crayon></app-crayon>
-        <app-canvas></app-canvas>
+        <app-canvas :room="this.room"></app-canvas>
     </div>
     
 </template>
@@ -11,6 +11,7 @@ import Crayon from './Crayon.vue';
 import Canvas from './Canvas.vue';
 
 export default {
+    props: ['room'],
     components: {
         appCrayon: Crayon,
         appCanvas: Canvas
