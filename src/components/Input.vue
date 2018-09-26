@@ -1,13 +1,33 @@
 <template>
     <div class="input">
-        <textarea name="" id="" cols="30" rows="10" class="inputBox"></textarea>
-        <button class="submit">傳送</button>
+        <textarea name="" id="" cols="30" rows="10" class="inputBox" v-model="content"></textarea>
+        <button class="submit" @click="submit">傳送</button>
     </div>
 </template>
 
 <script>
+var ws = new WebSocket('ws://localhost:8080');
+
 export default {
-    
+    props:['id','room'],
+    data() {
+        return {
+            content: ''
+        };
+    },
+    methods: {
+        submit() {
+            var msg = {
+                type: "sentMsg",
+                content: this.content,
+                from: this.id,
+                room: this.room
+            }
+
+            ws.send(JSON.stringify(msg));
+            this.content ='';
+        }
+    }
 }
 </script>
 

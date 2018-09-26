@@ -3,9 +3,9 @@
     <div class="container">
       <app-header></app-header>
       <app-sketchpad></app-sketchpad>
-      <app-chat></app-chat>
+      <app-chat :room="$route.params.room"></app-chat>
       <app-features></app-features>
-      <app-input></app-input>
+      <app-input :id="$route.params.id" :room="$route.params.room"></app-input>
     </div>
     
   </div>

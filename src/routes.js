@@ -3,5 +3,7 @@ import Chatroom from './components/Chatroom.vue'
 
 export const routes = [
     { path: '', component: Login},
-    { path: '/chatroom:id', component: Chatroom}
+    { path: '/chatroom:room&:id', name:'chatroom', component: Chatroom},
+    { path: '*', redirect: '/'}
+    
 ]

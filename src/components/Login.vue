@@ -2,19 +2,19 @@
     <main>
         <div class="container">
             <div class="des">
-                <p class="des__text"> Pating Chat 是一款類Y即時通的線上聊天室，只需輸入暱稱及好友所在的房間即可進行繪畫與聊天。</p>
+                <p class="des__text"> Painting Chat 是一款類Y即時通的線上聊天室，只需輸入暱稱及好友所在的房間即可進行繪畫與聊天。</p>
             </div>
             <div class="form">
-                <h1 class="form__title">Pating Chat</h1>
+                <h1 class="form__title">Painting Chat</h1>
                 <div class="form__group">
                     <label for="name" class="form__label">Name</label>
-                    <input id="name" type="text" placeholder="Peter" class="form__input">
+                    <input id="name" type="text" placeholder="Peter" class="form__input" v-model="name">
                 </div>
                 <div class="form__group">
                     <label for="room" class="form__label">Room</label>
-                    <input id="room" type="text" placeholder="55687" class="form__input">
+                    <input id="room" type="text" placeholder="55687" class="form__input" v-model="room">
                 </div>
-                <button class="form__submit">Chat</button>
+                <router-link :to="{ name: 'chatroom', params: { room: room, id: name } }" class="form__submit" tag="button">Chat</router-link>
             </div>
         </div>
     </main>
@@ -23,7 +23,12 @@
 
 <script>
 export default {
-    
+    data() {
+        return {
+            name: '',
+            room: ''
+        };
+    }
 }
 </script>
 
@@ -101,6 +106,10 @@ export default {
             border: 1px solid $color-primary;
             width:100%;
             padding: 0px 6px;
+            color:#857567;
+            &:focus {
+                background-color: rgba(233, 226, 213, 0.5);
+            }
         }
 
         &__submit {
