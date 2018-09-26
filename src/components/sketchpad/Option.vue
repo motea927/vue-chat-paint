@@ -4,9 +4,11 @@
         <button v-for="btn in btns" 
                 :key="btn.name" 
                 class="btn"
-                :class="'btn--' + btn.name"
+                :class="{ 'btn--active':btn.active }"
                 @click="changePenSize(btn.val)">
-                <span v-if="btn.active" class="btn--active"></span>
+                <span class="btn--span" 
+                      :class="'btn--span--' + btn.name">
+                </span>
         </button>
         
         <p class="erase" @click="erase">Erase Page</p>
@@ -75,27 +77,40 @@ export default {
         }
     }
     .btn {
-        position: relative;
-        background-color: black;
+        display: flex;
+        background-color: #f4f5eb;
         border:none;
         border-radius: 50%;
         cursor: pointer;
- 
-
-        &--small{
-            width: 5px;
-            height: 5px;
+        width: 30px;
+        height: 30px;
+        
+        align-items: center;
+        justify-content: center;
+        &--active {
+            border: 3px solid black;
         }
+        &--span {
+            background-color: black;
+            display: block;
+            border-radius: 50%;
+            
+            &--small{
+                width: 5px;
+                height: 5px;
+            }
 
-        &--medium{
-            width: 10px;
-            height: 10px;
-        }
+            &--medium{
+                width: 10px;
+                height: 10px;
+            }
 
-        &--large{
-            width: 15px;
-            height: 15px;
+            &--large{
+                width: 15px;
+                height: 15px;
+            }
         }
+        
     }
     .erase {
         cursor: pointer;
