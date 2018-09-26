@@ -1,6 +1,6 @@
 <template>
-    <div class="chat" ref="chat">
-        <ul class="chatList">
+    <div class="chat">
+        <ul class="chatList" ref="chatList">
             <li v-for="chatList in chatLists" class="chatItem">
                 <p>{{ chatList.from }}: {{ chatList.content}}</p>
             </li>
@@ -20,10 +20,11 @@ export default {
     },
     methods: {
         scrollToBottom() {
-            var chat = this.$refs.chat;
-            var scrollHeight = chat.scrollHeight;
-
-            chat.scrollTop = chat.scrollHeight - chat.getBoundingClientRect().height;
+            var chat = this.$refs.chatList;
+            var height = chat.scrollHeight;
+            setTimeout(() => {
+                chat.scrollTop = height
+            }, 0);
         }
     },
     mounted() {
@@ -32,10 +33,13 @@ export default {
             if (msg.type === 'sentMsg') {
                 if (this.room === msg.room) {
                     this.chatLists.push({from: msg.from, content: msg.content});
+                    console.log('push finish');
+                    this.scrollToBottom();
                 }
             }
         }
-    }
+    },
+    
 }
 
 
@@ -50,12 +54,14 @@ export default {
         width: 60%;
         margin: 0 auto;
         padding: 0 .2rem .2rem .2rem;
-        overflow-y: scroll;
+        
     }
 
     .chatList {
         height: 100%;
         list-style: none;
+        overflow-y: scroll;
+        height: 100%;
     }
 
     .chatItem {

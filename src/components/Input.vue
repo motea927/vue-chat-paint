@@ -1,6 +1,6 @@
 <template>
     <div class="input">
-        <textarea name="" id="" cols="30" rows="10" class="inputBox" v-model="content"></textarea>
+        <textarea name="" id="" cols="30" rows="10" class="inputBox" v-model="content" @keydown.enter.prevent="submit"></textarea>
         <button class="submit" @click="submit">傳送</button>
     </div>
 </template>

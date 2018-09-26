@@ -6,7 +6,9 @@
                 class="btn"
                 :class="'btn--' + btn.name"
                 @click="changePenSize(btn.val)">
+                <span v-if="btn.active" class="btn--active"></span>
         </button>
+        
         <p class="erase" @click="erase">Erase Page</p>
         <p>Extras</p>
         <p>Print</p>
@@ -22,13 +24,16 @@ export default {
             btns:[
                 {
                     name: 'small',
-                    val: 3
+                    val: 3,
+                    active: true
                 },{
                     name: 'medium',
-                    val: 7
+                    val: 7,
+                    active: false
                 },{
                     name: 'large',
-                    val: 11
+                    val: 11,
+                    active: false
                 }
             ]
         };  
@@ -39,6 +44,13 @@ export default {
         },
         changePenSize(val) {
             bus.$emit('changePenSize', val);
+            for (let i =0; i<=this.btns.length; i++) {
+                if (this.btns[i].val === val) {
+                    this.btns[i].active = true;
+                } else {
+                    this.btns[i].active = false;
+                }
+            }
         }
     }
 }
@@ -63,10 +75,13 @@ export default {
         }
     }
     .btn {
+        position: relative;
         background-color: black;
         border:none;
         border-radius: 50%;
         cursor: pointer;
+ 
+
         &--small{
             width: 5px;
             height: 5px;
