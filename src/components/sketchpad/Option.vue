@@ -13,7 +13,7 @@
         
         <p class="erase" @click="erase">Erase Page</p>
         <p>Extras</p>
-        <a href="#" download="painting.png" @click="print" ref="print"><p>Print</p></a>
+        <a href="#" download="painting.png" @click="print" ref="print" class="print"><p>Print</p></a>
     </div>
     
 </template>
@@ -123,6 +123,18 @@ export default {
     }
     .erase {
         cursor: pointer;
+    }
+
+    .print:link,
+    .print:visited{
+        color: black;
+        text-decoration: none;
+    }
+
+    .btn:hover,
+    .erase:hover,
+    .print:hover {
+        opacity: .5;
     }
 </style>
 
