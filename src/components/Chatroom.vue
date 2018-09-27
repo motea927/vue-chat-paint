@@ -1,11 +1,18 @@
 <template>
   <div class="grid">
-    <div class="container">
+    <div class="container"
+         :class="{'shake': isRing, 'shake-constant': isRing}">
       <app-header></app-header>
       <app-sketchpad :room="$route.params.room"></app-sketchpad>
-      <app-chat :room="$route.params.room"></app-chat>
-      <app-features :id="$route.params.id" :room="$route.params.room"></app-features>
-      <app-input :id="$route.params.id" :room="$route.params.room"></app-input>
+      <app-chat :room="$route.params.room"
+                @ringWindow="ringWindow"></app-chat>
+      <app-features :id="$route.params.id" 
+                    :room="$route.params.room"
+                    >
+      </app-features>
+      <app-input :id="$route.params.id" 
+                 :room="$route.params.room">
+      </app-input>
     </div>
     
   </div>
@@ -25,17 +32,33 @@ export default {
     appChat: Chat,
     appFeatures: Features,
     appInput: Input
+  },
+  data() {
+    return {
+      isRing: false
+    }
+  },
+  methods: {
+    ringWindow() {
+      this.isRing = true;
+      setTimeout( ()=> {
+        this.isRing = false;
+      }, 500);
+    }
   }
 }
 </script>
 
 <style lang="scss">
+@import '../style/csshake.min.css';
+
     .grid {
         width: 100%;
         height: 100%;
         display: grid;
         grid-template-columns: 1fr 70% 1fr;
         grid-template-rows: 1fr 90vh 1fr;
+        overflow: hidden;
     }
     .container {
         background-color: rgba(231, 238, 246, 0.932);

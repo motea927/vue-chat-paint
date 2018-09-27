@@ -16,16 +16,26 @@ var ws = new WebSocket('ws://localhost:8080');
 
 export default {
     props:['id','room'],
+    data () {
+        return {
+            isRing: false
+        };
+    },
     methods: {
         ring() {
-            var msg = {
-                type: "sentRing",
-                content: "叮咚, 有人在家嗎～～～～",
-                from: this.id,
-                room: this.room
+            if (!this.isRing) {
+                this.isRing = true;
+                var msg = {
+                    type: "sentRing",
+                    content: "叮咚, 有人在家嗎～～",
+                    from: this.id,
+                    room: this.room
+                }
+                ws.send(JSON.stringify(msg));
+                setTimeout(() => { this.isRing = false }, 5000);
             }
-
-            ws.send(JSON.stringify(msg));
+            
+            
         }
     }
 }

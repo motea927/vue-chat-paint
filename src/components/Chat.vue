@@ -2,9 +2,11 @@
     <div class="chat">
         <ul class="chatList" ref="chatList">
             <li v-for="chatList in chatLists" class="chatItem">
-                <p>{{ chatList.from }}: {{ chatList.content}}</p>
+                <p>{{ chatList.from }}: <span :class="{ 'ring': chatList.isRing }">{{ chatList.content}}</span></p>
             </li>
         </ul>
+        <audio src="./src/assets/audio/doorbell.wav" ref="ringAudio">
+        </audio>
     </div>
 </template>
 
@@ -37,8 +39,10 @@ export default {
                     console.log('push finish');
                     this.scrollToBottom();
                 } else if (msg.type === 'sentRing') {
-                    this.chatLists.push({from: msg.from, content: msg.content});
-                    this.scrollToBottom();
+                        this.chatLists.push({from: msg.from, content: msg.content, isRing: true});
+                        this.scrollToBottom();
+                        this.$refs.ringAudio.play();
+                        this.$emit('ringWindow');
                 }
             }
 
@@ -72,6 +76,11 @@ export default {
     .chatItem {
         padding: .05rem;
         font-size: .18rem;
+    }
+
+    .ring {
+        color: red;
+        font-weight: 600;
     }
 </style>
 
