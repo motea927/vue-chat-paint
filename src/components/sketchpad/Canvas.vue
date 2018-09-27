@@ -20,7 +20,8 @@ var _canvas, ctx;
 import bus from '../../assets/eventBus.js'
 import Option from './Option';
 
-var ws = new WebSocket('ws://localhost:8080');
+var HOST = location.origin.replace(/^http/, 'ws')
+var ws = new WebSocket(HOST);
 
 export default {
     props: ['room'],
