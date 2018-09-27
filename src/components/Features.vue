@@ -12,8 +12,8 @@
 
 
 <script>
-var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);
+const HOST = location.origin.replace(/^http/, 'ws');
+const ws = new WebSocket(HOST);
 
 export default {
     props:['id','room'],

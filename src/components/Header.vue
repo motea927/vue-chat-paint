@@ -1,7 +1,6 @@
 <template>
     <div class="header">
-        <h1 v-for="user in userList"
-            class="header__title">{{ user }} (我)</h1>
+        <h1 class="header__title">即時通</h1>
     </div>
 </template>
 

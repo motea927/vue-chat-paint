@@ -77,12 +77,22 @@ export default {
         align-items: center;
         text-align: center;
         margin-left: .1rem;
+        
         &__title{
             font-size: .2rem;
+
+            @media only screen and (max-height: 660px) {
+                font-size: .15rem;
+                font-size: .15rem;
+            }
         }
 
         & p {
             font-size: .2rem;
+            @media only screen and (max-height: 660px) {
+                font-size: .15rem;
+                font-size: .15rem;
+            }
         }
     }
     .btn {

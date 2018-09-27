@@ -2,7 +2,7 @@
   <div class="grid">
     <div class="container"
          :class="{'shake': isRing, 'shake-constant': isRing}">
-      <app-header :userList="userList"></app-header>
+      <app-header></app-header>
       <app-sketchpad :room="$route.params.room"></app-sketchpad>
       <app-chat :room="$route.params.room"
                 @ringWindow="ringWindow">
@@ -26,8 +26,7 @@ import Chat from './Chat';
 import Features from './Features';
 import Input from './Input';
 
-var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);
+
 
 
 export default {
@@ -40,8 +39,7 @@ export default {
   },
   data() {
     return {
-      isRing: false,
-      userList: [this.$route.params.id]
+      isRing: false
     };
   },
   methods: {

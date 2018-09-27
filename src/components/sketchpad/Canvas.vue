@@ -20,8 +20,8 @@ var _canvas, ctx;
 import bus from '../../assets/eventBus.js'
 import Option from './Option';
 
-var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);
+const HOST = location.origin.replace(/^http/, 'ws');
+const ws = new WebSocket(HOST);
 
 export default {
     props: ['room'],
@@ -36,44 +36,6 @@ export default {
     },
     components: {
         appOption: Option
-    },
-    mounted() {
-        window.onresize = () => {
-            this.setCanvasSize();
-        }
-
-        _canvas = this.$refs.canvas;
-        ctx = _canvas.getContext('2d');
-        this.setCanvasSize();
-
-        bus.$on('erase', this.erase);
-        bus.$on('print', this.print);
-        bus.$on('selectCrayon', this.selectCrayon);
-        bus.$on('changePenSize', this.changePenSize);
-
-        ws.onmessage = (evt) => {
-            var msg = JSON.parse(evt.data);
-        
-            if (msg.room === this.room) {
-                var ratioX,ratioY = 0;
-                //因應不同解析度換算比率
-                ratioX = msg.canvasWidth / _canvas.width;
-                ratioY = msg.canvasHeight / _canvas.height;
-        
-                if (msg.type === 'mouseDown') {
-                    ctx.strokeStyle = msg.color;
-                    ctx.lineWidth = msg.width;
-                    ctx.beginPath();
-                    ctx.moveTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
-                } else if (msg.type === 'mouseMove') {
-                    ctx.lineTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
-                    ctx.stroke();
-                } else if (msg.type === 'erase') {
-                    ctx.fillStyle = "white";
-                    ctx.fillRect(0, 0, _canvas.width, _canvas.height);
-                }
-            }
-        }
     },
     methods: {
         mouseDown($event) {
@@ -104,6 +66,7 @@ export default {
             }
 
             ws.send(JSON.stringify(msg));
+            
         },
         getMousePos(_canvas, $event) {
             var rect = _canvas.getBoundingClientRect();
@@ -152,6 +115,50 @@ export default {
             _canvas.height = _canvas.clientHeight;
             _canvas.width = _canvas.clientWidth;
         }
+    },
+    mounted() {
+        
+        
+        ws.onmessage = (evt) => {
+            console.log('ws');
+            var msg = JSON.parse(evt.data);
+            
+            if (msg.room === this.room) {
+
+                var ratioX,ratioY = 0;
+                //因應不同解析度換算比率
+                ratioX = msg.canvasWidth / _canvas.width;
+                ratioY = msg.canvasHeight / _canvas.height;
+        
+                if (msg.type === 'mouseDown') {
+                    ctx.strokeStyle = msg.color;
+                    ctx.lineWidth = msg.width;
+                    ctx.beginPath();
+                    ctx.moveTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
+                } else if (msg.type === 'mouseMove') {
+                    ctx.lineTo(msg.pos.x / ratioX, msg.pos.y / ratioY);
+                    ctx.stroke();
+                } else if (msg.type === 'erase') {
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(0, 0, _canvas.width, _canvas.height);
+                }
+            }
+        }
+
+        window.onresize = () => {
+            this.setCanvasSize();
+        }
+
+        _canvas = this.$refs.canvas;
+        ctx = _canvas.getContext('2d');
+        this.setCanvasSize();
+
+        bus.$on('erase', this.erase);
+        bus.$on('print', this.print);
+        bus.$on('selectCrayon', this.selectCrayon);
+        bus.$on('changePenSize', this.changePenSize);
+        
+        
     }
 }
 
