@@ -1,12 +1,13 @@
 <template>
     <div class="header">
-        <h1>即時通</h1>
+        <h1 v-for="user in userList"
+            class="header__title">{{ user }} (我)</h1>
     </div>
 </template>
 
 <script>
 export default {
-    
+    props:['userList']
 }
 </script>
 
@@ -15,11 +16,17 @@ export default {
         background-color: rgb(121, 120, 197);
         grid-row: header-start / header-end;
         color: white;
-        font-size: .1rem;
         width: 100%;
         height: 100%;
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
+        font-size: .1rem;
+        display: flex;
+        align-items: center;
+    }
+    .header__title {
+        margin-left: .1rem;
+        line-height: .1rem;
     }
 </style>
 

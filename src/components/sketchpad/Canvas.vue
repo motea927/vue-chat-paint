@@ -37,12 +37,13 @@ export default {
         appOption: Option
     },
     mounted() {
+        window.onresize = () => {
+            this.setCanvasSize();
+        }
+
         _canvas = this.$refs.canvas;
         ctx = _canvas.getContext('2d');
-        _canvas.height = _canvas.clientHeight;
-        _canvas.width = _canvas.clientWidth;
-
-
+        this.setCanvasSize();
 
         bus.$on('erase', this.erase);
         bus.$on('print', this.print);
@@ -144,6 +145,11 @@ export default {
         },
         changePenSize(val) {
             this.canvas.penSize = val;
+        },
+        setCanvasSize() {
+            console.log('resize');
+            _canvas.height = _canvas.clientHeight;
+            _canvas.width = _canvas.clientWidth;
         }
     }
 }
