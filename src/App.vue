@@ -14,6 +14,7 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: inherit;
+    font-family: 'Mali', 'Noto Sans TC';
   }
   html, body {
     height: 100%;

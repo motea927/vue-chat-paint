@@ -2,7 +2,8 @@
     <main>
         <div class="container">
             <div class="des">
-                <p class="des__text"> Painting Chat 是一款類Y即時通的線上聊天室，只需輸入暱稱及好友所在的房間即可進行繪畫與聊天。</p>
+                <p class="des__text"> Painting your life,</p>
+                <p class="des__text">Chat your heart</p>
             </div>
             <div class="form">
                 <h1 class="form__title">Painting Chat</h1>
@@ -60,13 +61,13 @@ export default {
         background-size: cover;
         background-position: center;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         &__text {
             color: #fff;
-            font-size: .18rem;
+            font-size: .25rem;
             padding: .15rem;
-            font-weight: 800;
         }
     }
     .form {
@@ -104,8 +105,8 @@ export default {
 
         &__input {
             border: 1px solid $color-primary;
-            width:100%;
-            padding: 0px 6px;
+            width: 65%;
+            padding-left: 6px;
             color:#857567;
             &:focus {
                 background-color: rgba(233, 226, 213, 0.5);
@@ -119,6 +120,9 @@ export default {
             background-color: $color-primary;
             border-radius: 2px;
             color: #fff;
+            &:hover {
+                opacity: .8;
+            }
         }
     }
 
