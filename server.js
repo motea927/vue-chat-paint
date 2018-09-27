@@ -7,7 +7,8 @@ const port = process.env.PORT || 8081;
 
 const server = app
                .use(history())
-               .use(express.static(__dirname))
+               .use(express.static('./'))
+               .use(express.static('./dist'))
                .listen(port, () => console.log(`server started on ${ port }`));
 
 const wss = new WebSocket.Server({ server });
