@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const WebSocket = require('ws');
 const app = express();
 const history = require('connect-history-api-fallback');
@@ -7,8 +8,7 @@ const port = process.env.PORT || 8081;
 
 const server = app
                .use(history())
-               .use(express.static('./'))
-               .use(express.static('./dist'))
+               .use(express.static(__dirname))
                .listen(port, () => console.log(`server started on ${ port }`));
 
 const wss = new WebSocket.Server({ server });
