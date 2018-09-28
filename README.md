@@ -22,8 +22,7 @@ Demo：https://painting-chat.herokuapp.com/
 - **Node.js**：利用V8引擎的程式語言，使用javascript語法
 - **Express**：架設伺服及路由的簡易框架
 - **ws**：websocket函式庫，用以雙向溝通
-- **connect-history-api-fallback
-**：作為express處理的中介，以利於使用vue-router的history模式
+- **connect-history-api-fallback**：作為express處理的中介，以利於使用vue-router的history模式
 
 ## :pencil2: 收穫
 
