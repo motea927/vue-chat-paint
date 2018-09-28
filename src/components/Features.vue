@@ -12,9 +12,8 @@
 
 
 <script>
-const HOST = location.origin.replace(/^http/, 'ws');
-const ws = new WebSocket(HOST);
-
+import ws from '../../socket.js'
+import bus from '../assets/eventBus.js'
 export default {
     props:['id','room'],
     data () {
@@ -32,6 +31,7 @@ export default {
                     from: this.id,
                     room: this.room
                 }
+                bus.$emit('ring');
                 ws.send(JSON.stringify(msg));
                 setTimeout(() => { this.isRing = false }, 5000);
             }

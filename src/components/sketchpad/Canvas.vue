@@ -19,9 +19,7 @@
 var _canvas, ctx;
 import bus from '../../assets/eventBus.js'
 import Option from './Option';
-
-const HOST = location.origin.replace(/^http/, 'ws');
-const ws = new WebSocket(HOST);
+import ws from '../../../socket.js'
 
 export default {
     props: ['room'],
@@ -116,12 +114,10 @@ export default {
             _canvas.width = _canvas.clientWidth;
         }
     },
-    mounted() {
-        
-        
-        ws.onmessage = (evt) => {
-            console.log('ws');
-            var msg = JSON.parse(evt.data);
+    created() {
+        ws.$on('message', (data) => {
+            console.log(msg);
+            var msg = JSON.parse(data);
             
             if (msg.room === this.room) {
 
@@ -143,7 +139,12 @@ export default {
                     ctx.fillRect(0, 0, _canvas.width, _canvas.height);
                 }
             }
-        }
+        });
+    },
+    mounted() {
+        
+        
+        
 
         window.onresize = () => {
             this.setCanvasSize();

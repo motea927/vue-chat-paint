@@ -26,9 +26,6 @@ import Chat from './Chat';
 import Features from './Features';
 import Input from './Input';
 
-
-
-
 export default {
   components: {
     appHeader: Header,

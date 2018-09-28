@@ -11,8 +11,8 @@
 </template>
 
 <script>
-const HOST = location.origin.replace(/^http/, 'ws');
-const ws = new WebSocket(HOST);
+import ws from '../../socket.js'
+import bus from '../assets/eventBus.js'
 
 export default {
     props: ['room'],
@@ -28,27 +28,57 @@ export default {
             setTimeout(() => {
                 chat.scrollTop = height
             }, 0);
+        },
+        ring (msg) {
+            var chatObject = {
+                from: this.$route.params.id,
+                content: "叮咚, 有人在家嗎～～",
+                isRing: true
+            }
+            if (msg) {
+                chatObject.from = msg.from,
+                chatObject.content = msg.content
+            }
+            this.chatLists.push(chatObject);
+            this.scrollToBottom();
+            this.$refs.ringAudio.play();
+            this.$emit('ringWindow');
+        },
+        sentMsg (msg) {
+            var isServer = msg.from? true : false;
+            if (isServer) {
+                var msgObject = {
+                    from: msg.from,
+                    content: msg.content
+                }
+            } else {
+                var msgObject = {
+                    from: this.$route.params.id,
+                    content: msg
+                }
+            }
+            this.chatLists.push(msgObject);
+            this.scrollToBottom();
         }
     },
+    created() {
+        bus.$on('ring', this.ring);
+        bus.$on('sentMsg', this.sentMsg);
+    },
     mounted() {
-        ws.onmessage = (evt) => {
+        ws.$on('message', (data) => {
             
-            var msg = JSON.parse(evt.data);
+            var msg = JSON.parse(data);
 
             if (this.room === msg.room) {
                 if (msg.type === 'sentMsg') {
-                    this.chatLists.push({from: msg.from, content: msg.content});
-                    console.log('push finish');
-                    this.scrollToBottom();
+                    this.sentMsg(msg);
                 } else if (msg.type === 'sentRing') {
-                        this.chatLists.push({from: msg.from, content: msg.content, isRing: true});
-                        this.scrollToBottom();
-                        this.$refs.ringAudio.play();
-                        this.$emit('ringWindow');
+                    this.ring(msg);
                 }
             }
 
-        }
+        });
     }
     
 }

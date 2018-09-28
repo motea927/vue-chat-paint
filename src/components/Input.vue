@@ -6,8 +6,8 @@
 </template>
 
 <script>
-const HOST = location.origin.replace(/^http/, 'ws');
-const ws = new WebSocket(HOST);
+import ws from '../../socket.js'
+import bus from '../assets/eventBus.js'
 
 export default {
     props:['id','room'],
@@ -24,7 +24,7 @@ export default {
                 from: this.id,
                 room: this.room
             }
-
+            bus.$emit('sentMsg', this.content);
             ws.send(JSON.stringify(msg));
             this.content ='';
         }
